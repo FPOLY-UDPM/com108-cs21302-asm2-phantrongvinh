@@ -97,7 +97,29 @@ void isInteger()
 }
 void gdc()
 {
-    int a = 0, b = 0;
+    int a = 0, b = 0, i = 1;
+    printf("Nhap so thu 1: ");
+    scanf("%d", &a);
+    printf("Nhap so thu 2: ");
+    scanf("%d", &b);
+    int length = 0;
+    if (a > b)
+    {
+        length = b;
+    }
+    else
+    {
+        length = a;
+    }
+    printf("Uoc so chung: \n");
+    while (i <= length / 2)
+    {
+        if (a % i == 0 & b % i == 0)
+        {
+            printf("%d | ", i);
+        }
+        i++;
+    }
 }
 
 int main()
@@ -131,6 +153,7 @@ int main()
         case 2:
             // Gọi hàm tìm Ước số chung và bội số chung
             printf("DA CHON CHUC NANG 2: TIM UOC SO CHUNG VA BOI SO CHUNG CUA 2 SO\n");
+            gdc();
             break;
         case 3:
             // Gọi hàm tính tiền cho quán Karaoke
