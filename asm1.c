@@ -21,105 +21,263 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 
-void isInteger()
+// Kiểm tra số nguyên bằng cách lấy số num
+int isInteger(float num, char *x, int *n)
 {
-    float num;
-    printf("Nhap mot so: ");
-    scanf("%f", &num);
+    int len = strlen(x);
+    const float EPS = 1e-6;
 
-    // Kiem tra so nguyen
-    if (floor(num) != num)
+    if (fabs(num - round(num)) < EPS)
     {
-        printf("%.2f khong la so nguyen\n", num);
+        len += sprintf(x + len, "%.2f la so nguyen\n", num);
+        *n = (int)round(num);
+        return 1;
     }
     else
     {
-        printf("%.2f la so nguyen \n", num);
-        int n = (int)num;
-        if (n < 0)
-        {
-            printf("%d la so nguyen am\n", n);
-        }
-        else if (n > 0)
-        {
-            printf("%d la so nguyen duong\n", n);
+        len += sprintf(x + len, "%.2f khong la so nguyen\n", num);
+        return 0;
+    }
+}
 
-            // Kiem tra so nguyen to
-            if (n > 1)
+// Kiểm tra số nguyên tố
+void isSNT(int num, char *x)
+{
+    int len = strlen(x);
+    if (num < 2)
+    {
+        len += sprintf(x + len, "%d không là số nguyên tố\n", num);
+    }
+    else
+    {
+        int i = 2;
+        int isSNT = 1;
+        while (i <= (num / 2) && isSNT == 1)
+        {
+            if (num % i == 0)
             {
-                int i = 2;
-                int isSNT = 1;
-                while (i < (n / 2) && isSNT == 1)
-                {
-                    if (n % i == 0)
-                    {
-                        isSNT = 0;
-                        printf("%d khong la so nguyen to\n", n);
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-                if (isSNT == 1)
-                {
-                    printf("%d la so nguyen to\n", n);
-                }
+                isSNT = 0;
+                len += sprintf(x + len, "%d không là số nguyên tố\n", num);
             }
-
-            // Kiem tra so chinh phuong
-            int j = 1;
-            int isSCP = 0;
-            while (j <= sqrt(n) && isSCP == 0)
+            else
             {
-                if (j * j == n)
-                {
-                    isSCP = 1;
-                    printf("%d la so chinh phuong\n", n);
-                }
-                else
-                {
-                    j++;
-                }
-            }
-            if (isSCP == 0)
-            {
-                printf("%d khong la so chinh phuong\n", n);
+                i++;
             }
         }
-        else
+        if (isSNT == 1)
         {
-            printf("%d la so 0\n", n);
-            printf("%d la so chinh phuong\n", n);
+            len += sprintf(x + len, "%d là số nguyên tố\n", num);
         }
     }
 }
-void gdc()
+
+// Kiểm tra số chính phương
+void isSCP(int num, char *x)
 {
-    int a = 0, b = 0, i = 1;
-    printf("Nhap so thu 1: ");
-    scanf("%d", &a);
-    printf("Nhap so thu 2: ");
-    scanf("%d", &b);
-    int length = 0;
-    if (a > b)
+    int i = 1;
+    int isSCP = 0;
+    int len = strlen(x);
+    while (i <= sqrt(num) && isSCP == 0)
     {
-        length = b;
+        if (i * i == num)
+        {
+            isSCP = 1;
+            len += sprintf(x + len, "%d la so chinh phuong\n", num);
+        }
+        else
+        {
+            i++;
+        }
+    }
+    if (isSCP == 0)
+    {
+        len += sprintf(x + len, "%d không la so chinh phuong\n", num);
+    }
+}
+
+// Chức năng số 1 kiểm tra số
+void testNum()
+{
+    float num = 0;
+    int n = 0;
+    printf("Nhap mot so: ");
+    scanf("%f", &num);
+    char x[200] = "";
+    if (isInteger(num, x, &n))
+    {
+        isSNT(n, x);
+        isSCP(n, x);
+    }
+    printf("%s\n", x);
+}
+
+// Tìm ước chung lớn nhất
+void gcd(int a, int b, int *ucln)
+{
+    a = abs(a);
+    b = abs(b);
+    while (b != 0)
+    {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    *ucln = a;
+}
+
+// Tìm bội chung nhỏ nhất
+void lcm(int a, int b, int ucln, int *bcnn)
+{
+    *bcnn = (a * b) / ucln;
+}
+
+// Chuc nang so 2 tim uoc chung ln va boi so chung nn
+void uclnAndBcnn()
+{
+    int a, b, ucln, bcnn;
+    printf("Nhap so thu nhat: ");
+    scanf("%d", &a);
+    printf("Nhap so thu hai: ");
+    scanf("%d", &b);
+
+    gcd(a, b, &ucln);
+    lcm(a, b, ucln, &bcnn);
+
+    printf("Uoc chung lon nhat cua %d va %d: %d\n"
+           "Boi chung nho nhat cua %d va %d: %d\n",
+           a, b, ucln, a, b, bcnn);
+}
+
+// Format so tien in ra
+void formatMoney(int money, char *x)
+{
+    char temp[20];
+    sprintf(temp, "%d", money);
+
+    int len = strlen(temp);
+    int cnt = 0, j = 0;
+
+    for (int i = len - 1; i >= 0; i--)
+    {
+        x[j++] = temp[i];
+        cnt++;
+        if (cnt == 3 && i != 0)
+        {
+            x[j++] = '.';
+            cnt = 0;
+        }
+    }
+    x[j] = '\0';
+    strrev(x);
+}
+
+// Chuc nang so 3 tinh tien cho quan karaoke
+void karaokeFee()
+{
+    int timeIn, timeOut, day;
+
+    do
+    {
+        printf("Nhap gio vao (12 - trước 23): ");
+        scanf("%d", &timeIn);
+    } while (timeIn < 12 || timeIn >= 23);
+
+    do
+    {
+        do
+        {
+            printf("Nhap gio ra (0 - 23)(gio ra chi nho hon gio vao neu su dung dich vu tu 1 ngay tro len): ");
+            scanf("%d", &timeOut);
+        } while (timeOut < 0 || timeOut > 23);
+
+        do
+        {
+            printf("Nhap so ngay(trong ngay(0), nhieu ngay nhap theo so ngay): ");
+            scanf("%d", &day);
+        } while (day < 0);
+    } while (timeOut <= timeIn && day == 0);
+
+    int time;
+
+    if (day > 0)
+    {
+        printf("Khach hang su dung dich vu qua %d dem\n", day);
+        time = 24 - timeIn + timeOut + 24 * (day - 1);
     }
     else
     {
-        length = a;
+        time = timeOut - timeIn;
     }
-    printf("Uoc so chung: \n");
-    while (i <= length / 2)
+
+    int rs;
+
+    if (time > 3)
     {
-        if (a % i == 0 & b % i == 0)
-        {
-            printf("%d | ", i);
-        }
-        i++;
+        rs = 3 * 150000 + (time - 3) * 150000 * 70 / 100;
     }
+    else
+    {
+        rs = time * 150000;
+    }
+
+    if (timeIn >= 14 && timeIn <= 17)
+    {
+        rs = rs * 90 / 100;
+    }
+
+    char s[100];
+    formatMoney(rs, s);
+    printf("%s VND\n", s);
+}
+
+// Chuc nang 4 Tinh tien dien
+void electricFe()
+{
+    // Khai báo biến
+    unsigned int tongSoDienMotThang, giaTienDien, giaTienDienSauThue = 0;
+
+    // Nhập dữ liệu
+    printf("Nhap vao so dien tieu thu hang thang: ");
+    scanf("%d", &tongSoDienMotThang);
+
+    // Xử lý, tính toán VÀ Hiển thị kết quả
+    if (tongSoDienMotThang < 51)
+    {
+        giaTienDien = tongSoDienMotThang * 1678;
+    }
+    else if (tongSoDienMotThang >= 51 && tongSoDienMotThang < 101)
+    {
+        giaTienDien = 50 * 1678 + (tongSoDienMotThang - 50) * 1734;
+    }
+    else if (tongSoDienMotThang >= 101 && tongSoDienMotThang < 201)
+    {
+        giaTienDien = 50 * 1678 + 50 * 1734 + (tongSoDienMotThang - 50 * 2) * 2014;
+    }
+    else if (tongSoDienMotThang >= 201 && tongSoDienMotThang < 301)
+    {
+        giaTienDien = 50 * 1678 + 50 * 1734 + 100 * 2014 + (tongSoDienMotThang - 50 * 4) * 2536;
+    }
+    else if (tongSoDienMotThang >= 301 && tongSoDienMotThang < 401)
+    {
+        giaTienDien = 50 * 1678 + 50 * 1734 + 100 * 2014 + 100 * 2536 + (tongSoDienMotThang - 50 * 6) * 2834;
+    }
+    else
+    {
+        giaTienDien = 50 * 1678 + 50 * 1734 + 100 * 2014 + 100 * 2536 + 100 * 2834 + (tongSoDienMotThang - 50 * 8) * 2927;
+    }
+
+    giaTienDienSauThue = giaTienDien + (giaTienDien * 8 / 100);
+    char s[100];
+    formatMoney(giaTienDienSauThue, s);
+    printf("%s VND\n", s);
+}
+
+// Chuc nang 5 doi tien
+void changeMoney()
+{
 }
 
 int main()
@@ -128,7 +286,7 @@ int main()
 
     do
     {
-        printf("Chon chuc nang:\n");
+        printf("\nChon chuc nang:\n");
         printf("1. Kiem tra so nguyen\n");
         printf("2. Tim Uoc so chung va boi so chung cua 2 so\n");
         printf("3. Tinh tien cho quan Karaoke\n");
@@ -148,16 +306,17 @@ int main()
         case 1:
             // Gọi hàm kiểm tra số nguyên
             printf("DA CHON CHUC NANG 1: KIEM TRA SO NGUYEN\n");
-            isInteger();
+            testNum();
             break;
         case 2:
             // Gọi hàm tìm Ước số chung và bội số chung
             printf("DA CHON CHUC NANG 2: TIM UOC SO CHUNG VA BOI SO CHUNG CUA 2 SO\n");
-            gdc();
+            uclnAndBcnn();
             break;
         case 3:
             // Gọi hàm tính tiền cho quán Karaoke
             printf("DA CHON CHUC NANG 3: TINH TIEN CHO QUAN KARAOKE\n");
+            karaokeFee();
             break;
         case 4:
             // Gọi hàm tính tiền điện
