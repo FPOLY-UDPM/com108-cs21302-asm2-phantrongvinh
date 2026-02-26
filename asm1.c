@@ -234,7 +234,7 @@ void karaokeFee()
 }
 
 // Chuc nang 4 Tinh tien dien
-void electricFe()
+void electricFee()
 {
     // Khai báo biến
     unsigned int tongSoDienMotThang, giaTienDien, giaTienDienSauThue = 0;
@@ -278,6 +278,50 @@ void electricFe()
 // Chuc nang 5 doi tien
 void changeMoney()
 {
+    int money = 842;
+    // printf("Nhap tien: ");
+    // scanf("%d", money);
+    int firstMoney = money;
+
+    // 500,200,100,50,20,10,5,2,1
+    int money500 = money / 500;
+    money = money % 500;
+
+    int money200 = money / 200;
+    money = money % 200;
+
+    int money100 = money / 100;
+    money = money % 100;
+
+    int money50 = money / 50;
+    money = money % 50;
+
+    int money20 = money / 20;
+    money = money % 20;
+
+    int money10 = money / 10;
+    money = money % 10;
+
+    int money5 = money / 5;
+    money = money % 5;
+
+    int money2 = money / 2;
+    money = money % 2;
+
+    int money1 = money / 1;
+    money = money % 1;
+
+    printf("So tien %d duoc doi thanh: \n"
+           "%d to 500,\n"
+           "%d to 200,\n"
+           "%d to 100,\n"
+           "%d to 50,\n"
+           "%d to 20,\n"
+           "%d to 10,\n"
+           "%d to 5,\n"
+           "%d to 2,\n"
+           "%d to 1\n",
+           firstMoney, money500, money200, money100, money50, money20, money10, money5, money2, money1);
 }
 
 int main()
@@ -321,10 +365,12 @@ int main()
         case 4:
             // Gọi hàm tính tiền điện
             printf("DA CHON CHUC NANG 4: TINH TIEN DIEN\n");
+            electricFee();
             break;
         case 5:
             // Gọi hàm đổi tiền
             printf("DA CHON CHUC NANG 5: DOI TIEN\n");
+            changeMoney();
             break;
         case 6:
             // Gọi hàm tính lãi suất vay ngân hàng
