@@ -1,7 +1,7 @@
 /******************************************************************************
- * Họ và tên: [ĐIỀN TÊN TẠI ĐÂY]
- * MSSV:      [ĐIỀN MSSV TẠI ĐÂY]
- * Lớp:       [ĐIỀN LỚP TẠI ĐÂY]
+ * Họ và tên: Phan Trọng Vinh
+ * MSSV:      PS49909
+ * Lớp:       CS21301
  *****************************************************************************/
 
 // Tạo file asm2.c và hoàn thiện nội dung Assignment từ nội dung file asm1.c
@@ -312,15 +312,15 @@ void changeMoney()
     money = money % 1;
 
     printf("So tien %d duoc doi thanh: \n"
-           "%d to 500,\n"
-           "%d to 200,\n"
-           "%d to 100,\n"
-           "%d to 50,\n"
-           "%d to 20,\n"
-           "%d to 10,\n"
-           "%d to 5,\n"
-           "%d to 2,\n"
-           "%d to 1\n",
+           "%d to 500k,\n"
+           "%d to 200k,\n"
+           "%d to 100k,\n"
+           "%d to 50k,\n"
+           "%d to 20k,\n"
+           "%d to 10k,\n"
+           "%d to 5k,\n"
+           "%d to 2k,\n"
+           "%d to 1k\n",
            firstMoney, money500, money200, money100, money50, money20, money10, money5, money2, money1);
 }
 
